@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= media.title %> - Schiavones Lost Media Repository</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .media-item {
+            background-color: #111;
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+        .media-item:hover {
+            transform: translateY(-5px);
+            background-color: #1a1a1a;
+        }
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .media-info {
+            margin-top: 10px;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .tag {
+            background-color: #333;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+        }
+        .view-more {
+            display: inline-block;
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Schiavones - Lost Media Repository do Tomoullis </h1>
+        
+        <div class="media-grid">
+            <% media.reverse().forEach(item => { %>
+                <a href="/view/<%= item.id %>" class="media-item">
+                    <% if (item.type === 'video') { %>
+                        <video>
+                            <source src="/resources/<%= item.filename %>" type="video/mp4">
+                        </video>
+                    <% } else { %>
+                        <img src="/resources/<%= item.filename %>" alt="<%= item.title %>">
+                    <% } %>
+                    <div class="media-info">
+                        <h3><%= item.title %></h3>
+                        <p><%= item.description.substring(0, 100) %>...</p>
+                        <div class="tags">
+                            <% item.tags.slice(0, 3).forEach(tag => { %>
+                                <span class="tag"><%= tag %></span>
+                            <% }); %>
+                            <% if (item.tags.length > 3) { %>
+                                <span class="tag">+<%= item.tags.length - 3 %></span>
+                            <% } %>
+                        </div>
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </a>
+            <% }); %>
+        </div>
+    </div>
+</body>
+</html>
